@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 export default class UserCreate extends Component {
 	constructor(props) {
@@ -13,10 +14,11 @@ export default class UserCreate extends Component {
 	}
 
 	componentDidMount() {
-		this.setState({
-			users: ['test-user'],
-			username: 'test-user',
-		});
+		// can comment this out when you are done tsting with hadrdoce
+	// 	this.setState({
+	// 		users: ['test-user'],
+	// 		username: 'test-user',
+	// 	});
 	}
 
 	onChangeUsername(e) {
@@ -33,6 +35,14 @@ export default class UserCreate extends Component {
 		};
 
 		console.log(user);
+
+		// we are now sending the date from forntend to backend;
+
+		// this sends the request to backend/routes/users/add POST route
+		// it will not accept duplicate names, so erraros will pop up if you add same username
+		axios.post('http://localhost:5000/users/add', user)
+			.then(res => console.log(res.data));
+
 
 		// window.location = '/';
 		this.setState({

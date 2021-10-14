@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import axios from 'axios';
 
 export default class ExerciseCreate extends Component {
 	// constructors
@@ -34,11 +35,24 @@ export default class ExerciseCreate extends Component {
 	// different lifecycle mehtods will be called automatically at differnt points
 	// this is called right before anything on the page loads, this will run this code
 	componentDidMount() {
+		// can comment this out when you are done tsting with hadrdoce
 		// hard code the users array for now.
-		this.setState({
-			users: ['test-user'],
-			username: 'test-user',
-		});
+		// this.setState({
+		// 	users: ['test-user'],
+		// 	username: 'test-user',
+		// });
+
+		axios.get('http://localhost:5000/users/')
+			.then(response => {
+				if (response.data.length > 0) {
+					this.setState({
+						// we map all the users in our array and we paste for each user, the username.
+						users: response.data.map(user => user.username),
+						// select first result in array
+						username: response.data[0].username,
+					})
+				}
+			})
 	}
 
 	onChangeUsername(e) {
@@ -68,20 +82,24 @@ export default class ExerciseCreate extends Component {
 	}
 
 	// when someone clicks the submit button
-	onSubmit(e) {
+	async onSubmit(e) {
 		// prevent default HTML form processing
-		e.preventDefault();
+		await e.preventDefault();
 
 		// you can only create variables in methods if they are going to be used within the method only
-		const exercise = {
+		const exercise = await {
 			username: this.state.username,
 			description: this.state.description,
 			duration: this.state.duration,
 			date: this.state.date,
 		};
 
-		console.log(exercise);
+		await console.log(exercise);
 
+		await axios.post('http://localhost:5000/exercises/add', exercise)
+			.then(res => console.log(res.data));
+
+			// was missing await before rediricitng. The thing hoppped over everything and just put me in '/' before even processing the axios part. Now it has to wawait for all of the above , before goign to '/'. now it works ad the development server deosnt get disconnected. Why does it get disconnected when we fucking change location?
 		window.location = '/';
 		// once you submit exercise, its going to go back to the list of exercises.
 	}
