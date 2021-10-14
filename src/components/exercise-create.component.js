@@ -7,6 +7,13 @@ export default class ExerciseCreate extends Component {
 		// all constructors in react, that are part of a subclass, start with constructor(props) and have super(props);
 		super(props);
 
+		// this binds the STATES, or as i like to call, events, to this CLASS, so that when referring to THIS, within those methods (liek onChangeUsername), THIS will return THIS class, and not NOTHING.
+		this.onChangeUsername = this.onChangeUsername.bind(this);
+		this.onChangeDescription = this.onChangeDescription.bind(this);
+		this.onChangeDuration = this.onChangeDuration.bind(this);
+		this.onChangeDate = this.onChangeDate.bind(this);
+		this.onSubmit = this.onSubmit.bind(this);
+
 		// create the backend json thing.
 		// in react youre always gonna create things in state.
 		// so when we update the state, it will autmatically update the users: [] page with the new values.
@@ -41,6 +48,7 @@ export default class ExerciseCreate extends Component {
 	}
 	// because we are going to use a library taht creates a calender, so that you can pickdate, we are not using (e)
 	onChangeDate(date){
+		// we want this to refer to this class. check up below the PROPRS again, the this.on things.
 		this.setState({
 			date: date,
 		});
@@ -60,6 +68,9 @@ export default class ExerciseCreate extends Component {
 		};
 
 		console.log(exercise);
+
+		window.location = '/';
+		// once you submit exercise, its going to go back to the list of exercises.
 	}
 
 	// frontend
