@@ -38,7 +38,14 @@ import React from 'react';
 // const Router = require('react-router-dom').BrowserRouter();
 // ^ is basically what import is i think.
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import "bootstrap/dist/css/bootstrap.min.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+// lets import the components we are going to use in our App();
+import Navbar from './components/navbar.component';
+import ExerciseList from './components/exercise-list.component';
+import ExerciseEdit from './components/exercise-edit.component';
+import ExerciseCreate from './components/exercise-create.component';
+import UserCreate from './components/user-create.component';
 function App() {
   return (
     // another reason why he sucks, is he doesnt explain why we are encasing this in a Router.
@@ -49,11 +56,10 @@ function App() {
     </div> */}
 
       {/* update: I know why he did router now as i follow along. it will make the ROUTES to our routes. damn , im dumb */}
-      {/* update 2: Navbar is red??? might delte... idk how to add it yet. */}
       <Navbar />
       <br />
       {/* Path attrivbute is the url path. */}
-      <Route path="/" exact component={ExercisesList} />
+      <Route path="/" exact component={ExerciseList} />
       <Route path="/edit/:id" component={ExerciseEdit} />
       <Route path="/create" component={ExerciseCreate} />
       <Route path="/user" component={UserCreate} />
