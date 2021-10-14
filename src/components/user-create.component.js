@@ -48,10 +48,10 @@ export default class UserCreate extends Component {
 				<form onSubmit={this.onSubmit}>
 					<div className="form-group">
 						<label>Username: </label>
-						<input />
+						<input type="text" required className="form-control" value={this.state.username} onChange={this.onChangeUsername} />
 					</div>
 					<div className="form-group">
-						<input type="submit" value="Create Exercise" className="btn btn-primary" />
+						<input type="submit" value="Create User" className="btn btn-primary" />
 					</div>
 				</form>
 			</div>
