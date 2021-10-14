@@ -7,44 +7,61 @@ import { Link } from 'react-router-dom';
 // this has no states.
 // it accepts the props. which is basically req.body. or well, properties.
 const Exercise = props => {
-	// oh and props stands for properties.
-	// create rows fr each elemnt
-	<tr>
-		{/* create columns for the element */}
-		<td>{props.exercise.username}</td>
-		<td>{props.exercise.description}</td>
-		<td>{props.exercise.duration}</td>
-		{/* format date */}
-		<td>{props.exercise.date.substring(0, 10)}</td>
-		<td>
-			{/* this creates the ACTIOSN. The a href one leads to the EXERCISE DELETE of this page. */}
-			{/* we can create teh button instead of a href */}
-			{/* eslin-disable-next-line */}
-			<Link to={"/edit/" + props.exercise._id}>edit</Link> | <a href="#" onClick={() => { props.exerciseDelete(props.exercise._id) }}>delete</a>
-		</td>
-	</tr >
+	try {
+		console.log('props.exercise: ', props.exercise);
+		console.log('props: ', props);
+		// oh and props stands for properties.
+		// create rows tr each elemnt
+		<tr>
+			{/* create columns for the element */}
+			<td>{props.exercise.username}</td>
+			<td>{props.exercise.description}</td>
+			<td>{props.exercise.duration}</td>
+			{/* format date */}
+			<td>{props.exercise.date.substring(0, 10)}</td>
+			<td>
+				{/* this creates the ACTIOSN. The a href one leads to the EXERCISE DELETE of this page. */}
+				{/* we can create teh button instead of a href */}
+				{/* eslin-disable-next-line */}
+				<Link to={"/edit/" + props.exercise._id}>edit</Link> | <button className="btn btn-danger" onClick={() => { props.exerciseDelete(props.exercise._id) }}>Delete</button>
+				{/* <Link to={"/edit/" + props.exercise._id}>edit</Link> | <a href="#" onClick={() => { props.exerciseDelete(props.exercise._id) }}>delete</a> */}
+			</td>
+		</tr>
+	} catch (err) {
+		console.log('error in the Exercise const thing:', err);
+	}
 }
-
+// let exercises = [];022
+let getExercises = [];
 export default class ExerciseList extends Component {
 	constructor(props) {
 		super(props);
 
 		this.exerciseDelete = this.exerciseDelete.bind(this);
 
-		this.state = {
-			exercises: [],
-		};
+		this.state = { exercises: [] };
 	}
 
-	componentDidMount() {
-		axios.get('http://localhost:5000/exercises/')
-			.then(response => {
-				this.setState({ exercises: response.data });
-				console.log(response.data);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+	async componentDidMount() {
+		try {
+			getExercises = await axios.get('http://localhost:5000/exercises');
+			console.log(getExercises.data);
+
+			console.log('Exercise method: ', <Exercise></Exercise>);
+
+			await this.setState({ exercises: getExercises.data });
+		}
+		catch (err) {
+			console.log('Error when getting exercises with axios: ', err);
+		}
+		// axios.get('http://localhost:5000/exercises/')
+		// 	.then(response => {
+		// 		this.setState({ exercises: response.data });
+		// 		console.log(response.data);
+		// 	})
+		// 	.catch((err) => {
+		// 		console.log(err);
+		// 	});
 	}
 
 	exerciseDelete(id) {
@@ -66,14 +83,20 @@ export default class ExerciseList extends Component {
 
 	exerciseList() {
 		// return something fore every element in the array
-		return this.state.exercises.map(exerciseCurrent => {
-			// for ecery element we are going to make a component, that will hold the row of the table, as well as action on delete and update.
-			// this calls the Exercise method.
-			return <Exercise
-				exercise={exerciseCurrent}
-				deleteExercise={this.exerciseDelete}
-				key={exerciseCurrent._id} />
-		})
+		try {
+			return this.state.exercises.map((exerciseCurrent) => {
+				// for ecery element we are going to make a component, that will hold the row of the table, as well as action on delete and update.
+				// this calls the Exercise method. 2
+				console.log('exerciseCurrent: ', exerciseCurrent);
+				return <Exercise
+					exercise={exerciseCurrent}
+					deleteExercise={this.exerciseDelete}
+					key={exerciseCurrent._id} />
+			});
+		}
+		catch (err) {
+			console.log('Error in exerciseList: ', err);
+		}
 	}
 
 	render() {
