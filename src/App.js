@@ -40,13 +40,23 @@ import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 function App() {
-  return(
+  return (
     // another reason why he sucks, is he doesnt explain why we are encasing this in a Router.
     // it worked before!
     <Router>
-    <div className="container">
+      {/* <div className="container">
       Hello world!
-    </div>
+    </div> */}
+
+      {/* update: I know why he did router now as i follow along. it will make the ROUTES to our routes. damn , im dumb */}
+      {/* update 2: Navbar is red??? might delte... idk how to add it yet. */}
+      <Navbar />
+      <br />
+      {/* Path attrivbute is the url path. */}
+      <Route path="/" exact component={ExercisesList} />
+      <Route path="/edit/:id" component={ExerciseEdit} />
+      <Route path="/create" component={ExerciseCreate} />
+      <Route path="/user" component={UserCreate} />
     </Router>
   );
 }
