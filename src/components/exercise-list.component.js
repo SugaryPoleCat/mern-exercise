@@ -19,7 +19,9 @@ const Exercise = props => {
 		<td>
 			{/* this creates the ACTIOSN. The a href one leads to the EXERCISE DELETE of this page. */}
 			{/* we can create teh button instead of a href */}
-			<Link to={"/edit/" + props.exercise._id}>edit</Link> | <a href="#" onClick={() => { props.exerciseDelete(props.exercise._id) }}>delete</a></td>
+			{/* eslin-disable-next-line */}
+			<Link to={"/edit/" + props.exercise._id}>edit</Link> | <a href="#" onClick={() => { props.exerciseDelete(props.exercise._id) }}>delete</a>
+		</td>
 	</tr >
 }
 
@@ -36,10 +38,9 @@ export default class ExerciseList extends Component {
 
 	componentDidMount() {
 		axios.get('http://localhost:5000/exercises/')
-			.then(res => {
-				this.setState({
-					exercises: res.data,
-				});
+			.then(response => {
+				this.setState({ exercises: response.data });
+				console.log(response.data);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -90,7 +91,7 @@ export default class ExerciseList extends Component {
 						</tr>
 					</thead>
 					<tbody>
-						{this.exercisesList()}
+						{this.exerciseList()}
 					</tbody>
 				</table>
 			</div>
