@@ -56,6 +56,7 @@ function App() {
     </div> */}
 
       {/* update: I know why he did router now as i follow along. it will make the ROUTES to our routes. damn , im dumb */}
+      <div className="container">
       <Navbar />
       <br />
       {/* Path attrivbute is the url path. */}
@@ -63,6 +64,7 @@ function App() {
       <Route path="/edit/:id" component={ExerciseEdit} />
       <Route path="/create" component={ExerciseCreate} />
       <Route path="/user" component={UserCreate} />
+      </div>
     </Router>
   );
 }
