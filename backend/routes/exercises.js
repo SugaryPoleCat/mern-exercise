@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
 router.post('/add', (req, res) => {
 	// username is part of the request body
 	// These are all requests by the CLIENT to our SERVER, through the REQUEST BODY.
-	console.log('we are in Exercises add')
+	console.log('we are in Exercises add');
 	const username = req.body.username;
 	const description = req.body.description;
 	const duration = Number(req.body.duration);
@@ -52,13 +52,20 @@ router.get('/:id', (req, res) => {
 // This will delete a exercise
 router.delete('/:id', (req, res) => {
 	// seems to be a Mongoose own thing, cause sequelize works similar but a littel different
-	Exercise.findByIdAndDelete(req.params.id)
-		.then(() => res.json('Exercise deleted!'))
-		.catch(err => res.status(400).json('Error: ' + err));
+	try{
+		Exercise.findByIdAndDelete(req.params.id);
+		res.json('Exercise deleted!');
+	}
+	catch(err){
+		res.status(400).json('Error: ', err);
+	}
+		// .then(() => res.json('Exercise deleted!'))
+		// .catch(err => res.status(400).json('Error: ' + err));
 });
 
 // this will update an exercise. I have no idea why the course says to use .post for update, but i will follow for now and fix errors as they come cause i know what to do,.
-router.post('/update/:id', (req, res) => {
+// okay i just use .patch instead.
+router.patch('/update/:id', (req, res) => {
 	// seems to be a Mongoose own thing, cause sequelize works similar but a littel different
 	Exercise.findById(req.params.id)
 		.then(exercise => {
